@@ -9,20 +9,27 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Concentration(numberOfPairOfCards: (cardButtons.count + 1)/2)
-    var flipCount = 0 {
+    private lazy var game = Concentration(numberOfPairOfCards: numberOfPairsOfCards)
+    
+    var numberOfPairsOfCards: Int {
+        get {
+            return (cardButtons.count + 1) / 2
+        }
+    }
+    
+    private(set) var flipCount = 0 {
         didSet {
             flipCountLable.text = "Flips: \(flipCount)"
         }
     }
     
-    @IBOutlet weak var flipCountLable: UILabel!
+    @IBOutlet private weak var flipCountLable: UILabel!
     
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private var cardButtons: [UIButton]!
     
     
     
-    @IBAction func touchCard(_ sender: UIButton) {
+    @IBAction private func touchCard(_ sender: UIButton) {
     
         flipCount += 1
         if let cardNumber = cardButtons.firstIndex(of: sender) {
@@ -34,7 +41,7 @@ class ViewController: UIViewController {
         
     }
     
-    func updateViewFromModel () {
+    private func updateViewFromModel () {
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -48,12 +55,12 @@ class ViewController: UIViewController {
         }
     }
     
-    var emojiChoices: Array<String> = ["🐶","🐱","🐻","🦁","🐣","🐸","🦋"]
+    private var emojiChoices: Array<String> = ["🐶","🐱","🐻","🦁","🐣","🐸","🦋","🐙"]
     
     
-    var emoji = [Int:String]() // Dictionary<Int,String>
+    private var emoji = [Int:String]() // Dictionary<Int,String>
         
-    func emoji(for card: Card) -> String {
+    private func emoji(for card: Card) -> String {
         if emoji[card.identifier] == nil {
             
             if emojiChoices.count > 0 {
